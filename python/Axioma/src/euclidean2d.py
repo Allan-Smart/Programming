@@ -1235,8 +1235,8 @@ class TriangleFactory:
         triangle_type : str
             The key identifying the desired type of triangle. Accepted keys are:
             
-            - 'ET' : EquilateralTriangle (requires `side`)
-            - 'RAT' : RightAngleTriangle (requires `base`, `height`)
+            - 'et' : EquilateralTriangle (requires `side`)
+            - 'rat' : RightAngleTriangle (requires `base`, `height`)
             - 'it' : IsoscelesTriangle
             - 'st' : ScaleneTriangle
         **kwargs : dict, optional
@@ -1257,7 +1257,7 @@ class TriangleFactory:
             If the structural keyword arguments in `kwargs` do not match the 
             expected parameters of the targeted triangle's `__init__` constructor.
         """
-        triangle_class = TriangleFactory.processors.get(triangle_type)
+        triangle_class = TriangleFactory.processors.get(triangle_type.lower())
         if triangle_class:
             return triangle_class(**kwargs)
         else:
@@ -1603,27 +1603,4 @@ class Octagon(Shape2D):
         float: Calculate the polar moment of inertia for a regular octagon
         """
         return ((1 + 2 * math.sqrt(2)) / 3) * self._side ** 4
-
-    
-
-
-    
-
-    
-
-
-
-
-    
-
-    
-
-    
-
-    
-
-
-
-
-
 
