@@ -1219,8 +1219,8 @@ class TriangleFactory:
     """
 
     processors = {
-        'ET': EquilateralTriangle,
-        'RAT': RightAngleTriangle,
+        'et': EquilateralTriangle,
+        'rat': RightAngleTriangle,
         'it': IsoscelesTriangle,
         'st': ScaleneTriangle
     }
@@ -1359,11 +1359,11 @@ class Pentagon(Shape2D):
         """
         return self._side / (2 * math.sin(math.radians(36)))           
 
-#TODO next:
+
 #---------------------------------------
 #           Reg Hexagon - Child Class
 #---------------------------------------
-class Hexgaon(Shape2D):
+class Hexagon(Shape2D):
 
     """
     A concrete implementation of a 2D shape representing a Hexagon.
@@ -1495,12 +1495,132 @@ class Hexgaon(Shape2D):
 
         return ix, iy, jz
 
-    
-# TODO: Next
+
 #---------------------------------------
 #           Reg Octagon - Child Class
 #---------------------------------------
+class Octagon(Shape2D):
 
+    """
+    A concrete implementation of a 2D shape representing a Octagon.
+
+    Provides geometric and engineering calculations for standard octagon
+    metrics (area, height, perimeter, inradius, and circumradius) 
+    as well as structural physics metrics like the polar_moment_of_inertia. 
+    It enforces strict type, value, and geometric validity validation on 
+    both the base and equal side length dimensions.
+
+    Parameters
+    ----------
+    side : float or int
+        The length of the octagon. Must be greater than zero.
+    
+    Attributes
+    ----------
+    length : float
+        The validated length of all sides.
+    name : str
+        The identifying name of the shape, hardcoded to 'Octagon'.
+
+    Raises
+    ------
+    TypeError
+        If either the provided length is not an integer or a float.
+    ValueError
+        If length is less than or equal to zero.
+
+    See Also
+    --------
+    Shape2D : The parent abstract base class.
+    """
+
+    def __init__(self, side: float):
+        super().__init__('Octagon')
+        self.side = side
+
+    @property
+    def side(self) -> float:
+        """
+        float: The side of the octagon. Enforces positive numeric constraints.
+        """
+        return self._side
+
+    # Side error checking
+    @side.setter
+    def side(self, side: float) -> None:
+        if not isinstance(side, (int, float)):
+            raise TypeError('Side must be an integer or float')
+        if side <= 0:
+            raise ValueError('Side must be greter than zero')
+        self._side = side
+
+    # Calculate the area of an octagon
+    @property
+    def area(self) -> float:
+        """
+        float: Calculates the area of a regular octagon given its 
+        side length.
+        """
+        return 2 * (1 + math.sqrt(2)) * (self._side * self._side)
+
+    # Calculate the perimeter of an octagon
+    @property
+    def perimeter(self) -> float:
+        """
+        float: Calculates the perimeter of a regular octagon given 
+        its side length.
+        """
+        return 8 * self._side
+
+    # Calculate the longest diagonal of an octagon
+    @property
+    def longest_diagonal(self) -> float:
+        """
+        float: The length of the longest diagonal of a regular octagon
+        """
+        return self._side * math.sqrt(4 + 2 * math.sqrt(2))
+
+    # Calculate the shortest diagonal of an octagon
+    @property
+    def shortest_diagonal(self) -> float:
+        """
+        float: Calculate the length of the shortest diagonal of a regular octagon
+        """
+        return self._side * math.sqrt(2 + math.sqrt(2))
+
+    # Calculate the inradius of an octagon
+    @property
+    def inradius(self) -> float:
+        """
+        float: Calculate the inradius of a regular octagon
+        """
+        return (self._side/2) * (1 + math.sqrt(2))
+
+    # Calculate the polar moment of inertia
+    @property
+    def polar_moment_of_inertia(self) -> float:
+        """
+        float: Calculate the polar moment of inertia for a regular octagon
+        """
+        return ((1 + 2 * math.sqrt(2)) / 3) * self._side ** 4
+
+    
+
+
+    
+
+    
+
+
+
+
+    
+
+    
+
+    
+
+    
 
 
 
