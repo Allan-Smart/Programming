@@ -1,0 +1,85 @@
+
+./useripnut:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <_start>:
+    ; 1. Opening message
+    opening_message         db "Allan's Program", 10
+    opening_message_len     equ $ - opening_message
+
+    ; 2. Prompting user to enter name
+    enter_name              db "Please enter your name: "
+  401000:	b8 01 00 00 00       	mov    eax,0x1
+    enter_name_len          equ $ - enter_name
+  401005:	bf 01 00 00 00       	mov    edi,0x1
+
+  40100a:	48 be 00 20 40 00 00 	movabs rsi,0x402000
+  401011:	00 00 00 
+    ; 5. Display message to screen what the user entered
+  401014:	ba 10 00 00 00       	mov    edx,0x10
+    member_entered          db "Welcome: "
+  401019:	0f 05                	syscall
+    member_entered_len      equ $ - member_entered
+
+section .bss
+  40101b:	b8 01 00 00 00       	mov    eax,0x1
+
+  401020:	bf 01 00 00 00       	mov    edi,0x1
+    ;4 Buffer for name input
+  401025:	48 be 10 20 40 00 00 	movabs rsi,0x402010
+  40102c:	00 00 00 
+    name_buffer             resb 156
+  40102f:	ba 18 00 00 00       	mov    edx,0x18
+
+  401034:	0f 05                	syscall
+section .text
+
+    global _start
+  401036:	b8 00 00 00 00       	mov    eax,0x0
+
+  40103b:	bf 00 00 00 00       	mov    edi,0x0
+
+  401040:	48 be 34 20 40 00 00 	movabs rsi,0x402034
+  401047:	00 00 00 
+_start:
+  40104a:	ba 9c 00 00 00       	mov    edx,0x9c
+
+  40104f:	0f 05                	syscall
+    ; 1. Display opening message to the screen
+  401051:	49 89 c0             	mov    r8,rax
+    mov eax, 1
+    mov edi, 1
+    mov rsi, opening_message
+  401054:	b8 01 00 00 00       	mov    eax,0x1
+    mov edx, opening_message_len
+  401059:	bf 01 00 00 00       	mov    edi,0x1
+    syscall
+  40105e:	48 be 28 20 40 00 00 	movabs rsi,0x402028
+  401065:	00 00 00 
+
+  401068:	ba 09 00 00 00       	mov    edx,0x9
+    ; 2. Ask user to enter their name
+  40106d:	0f 05                	syscall
+    mov eax, 1
+    mov edi, 1
+    mov rsi, enter_name
+  40106f:	b8 01 00 00 00       	mov    eax,0x1
+    mov edx, enter_name_len
+  401074:	bf 01 00 00 00       	mov    edi,0x1
+    syscall
+  401079:	48 be 34 20 40 00 00 	movabs rsi,0x402034
+  401080:	00 00 00 
+
+  401083:	4c 89 c2             	mov    rdx,r8
+    ; 3. Take input for user name
+  401086:	0f 05                	syscall
+    mov eax, 0
+    mov edi, 0
+    mov rsi, name_buffer
+  401088:	b8 3c 00 00 00       	mov    eax,0x3c
+    mov edx, 156
+  40108d:	bf 00 00 00 00       	mov    edi,0x0
+    syscall
+  401092:	0f 05                	syscall
